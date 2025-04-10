@@ -1,30 +1,103 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <!-- Other head elements -->
-  <base href="$FLUTTER_BASE_HREF">
+  <base href="/">
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-remote-config.js"></script>
-</head>
-<body>
-  <!-- Your existing body content -->
+  <meta charset="UTF-8">
+  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="description" content="Jayesh Ghadge - Flutter Developer Portfolio">
+
+  <!-- iOS meta tags & icons -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="apple-mobile-web-app-title" content="jayesh_flutter">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="favicon-16.png"/>
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png"/>
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon-192.png"/>
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon-512.png"/>
+
+  <title>Jayesh Ghadge - Portfolio</title>
+  <link rel="manifest" href="manifest.json">
+
+  <!-- ✅ Firebase JS SDK (compat version for non-module usage) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-analytics-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-remote-config-compat.js"></script>
+
   <script>
-    // Initialize Firebase before Flutter web
-    window.firebaseConfig = {
+    // ✅ Firebase Configuration
+    const firebaseConfig = {
       apiKey: "AIzaSyBTu0YG8i3w3NW9sxKcH2Xhru5493iBM2M",
       authDomain: "flutter-portfolio-175e9.firebaseapp.com",
       projectId: "flutter-portfolio-175e9",
       storageBucket: "flutter-portfolio-175e9.appspot.com",
       messagingSenderId: "486954760440",
       appId: "1:486954760440:web:1ee9936691e3012d58630d",
-      measurementId: "G-FPGVK18QT5",
+      measurementId: "G-FPGVK18QT5"
     };
-    
-    // The firebase object will be available when the Firebase JS SDK loads
+
+    // ✅ Initialize Firebase & Analytics
+    firebase.initializeApp(firebaseConfig);
+    firebase.analytics();
+
+    // Optional: Expose to global for Dart JS interop
+    window.firebaseConfig = firebaseConfig;
   </script>
-  <script src="flutter.js" defer></script>
-  <!-- Your existing scripts -->
+</head>
+
+<body>
+  <!-- ✅ Flutter App Loader -->
+  <script>
+    var serviceWorkerVersion = null;
+    var scriptLoaded = false;
+
+    function loadMainDartJs() {
+      if (scriptLoaded) return;
+      scriptLoaded = true;
+      const script = document.createElement('script');
+      script.src = 'main.dart.js';
+      script.type = 'application/javascript';
+      document.body.append(script);
+    }
+
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function () {
+        const swUrl = 'flutter_service_worker.js?v=' + serviceWorkerVersion;
+        navigator.serviceWorker.register(swUrl).then((reg) => {
+          const worker = reg.installing || reg.waiting;
+          if (!reg.active && worker) {
+            worker.addEventListener('statechange', () => {
+              if (worker.state === 'activated') {
+                loadMainDartJs();
+              }
+            });
+          } else if (!reg.active.scriptURL.endsWith(serviceWorkerVersion)) {
+            reg.update();
+            if (reg.installing) {
+              reg.installing.addEventListener('statechange', () => {
+                if (reg.installing.state === 'activated') {
+                  loadMainDartJs();
+                }
+              });
+            }
+          } else {
+            loadMainDartJs();
+          }
+        });
+
+        setTimeout(() => {
+          if (!scriptLoaded) {
+            console.warn('Fallback to script tag');
+            loadMainDartJs();
+          }
+        }, 4000);
+      });
+    } else {
+      loadMainDartJs();
+    }
+  </script>
 </body>
 </html>

@@ -88,21 +88,21 @@ class RemoteConfigService {
   Future<PortfolioData> getPortfolioData() async {
     try {
       final portfolioString = _remoteConfig.getString('portfolio');
-      log('Remote Config portfolio data: $portfolioString');
+      print('Remote Config portfolio data: $portfolioString');
 
       if (portfolioString.isEmpty) {
-        log('Portfolio data from Remote Config is empty, using fallback');
+        print('Portfolio data from Remote Config is empty, using fallback');
         return getFallbackPortfolioData();
       }
 
       try {
         return PortfolioData.fromJson(jsonDecode(portfolioString));
       } catch (e) {
-        log('Error parsing portfolio data: $e');
+        print('Error parsing portfolio data: $e');
         return getFallbackPortfolioData();
       }
     } catch (e) {
-      log('Error fetching portfolio data: $e');
+      print('Error fetching portfolio data: $e');
       return getFallbackPortfolioData();
     }
   }
