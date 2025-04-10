@@ -1,122 +1,224 @@
-import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../widgets/custom_text.dart';
-import '../widgets/work_box.dart';
+// import '../models/portfolio_data.dart';
+// import '../widgets/main_title.dart';
 
-class Work extends StatefulWidget {
-  const Work({super.key});
+// class Work extends ConsumerStatefulWidget {
+//   final PortfolioData portfolioData;
 
-  @override
-  WorkState createState() => WorkState();
-}
+//   const Work({
+//     super.key,
+//     required this.portfolioData,
+//   });
 
-class WorkState extends State<Work> {
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    return ConstrainedBox(
-      constraints: BoxConstraints.tightFor(
-        width: size.width,
-        height: size.height * 1.4,
-      ),
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              CustomText(
-                text: "02.",
-                textsize: 20.0,
-                color: Color(0xff61F9D5),
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(
-                width: 12.0,
-              ),
-              CustomText(
-                text: "Where I've Worked",
-                textsize: 26.0,
-                color: Color(0xffCCD6F6),
-                fontWeight: FontWeight.w700,
-              ),
-              SizedBox(
-                width: size.width * 0.01,
-              ),
-              Container(
-                width: size.width / 4,
-                height: 1.10,
-                color: Color(0xff303C55),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: size.height * 0.07,
-          ),
-          Row(
-            children: [
-              Expanded(
-                flex: 1,
-                child: Container(
-                    height: size.height * 1.2,
-                    //color: Colors.indigo,
-                    child: Stack(
-                      children: [
-                        Center(
-                          child: VerticalDivider(
-                            color: Color(0xff64FFDA),
-                            thickness: 1.75,
-                            width: 10,
-                            indent: 10,
-                            endIndent: 10,
-                          ),
-                        ),
-                        Container(
-                          child: Center(
-                              child: Column(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              CircleAvatar(
-                                backgroundColor: Colors.pink,
-                                child: FaIcon(FontAwesomeIcons.laptopHouse,
-                                    color: Colors.white),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.red,
-                                child: FaIcon(FontAwesomeIcons.freeCodeCamp,
-                                    color: Colors.white),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.brown,
-                                child: FaIcon(FontAwesomeIcons.laptopCode,
-                                    color: Colors.white),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.deepOrange,
-                                child: FaIcon(FontAwesomeIcons.coffee,
-                                    color: Colors.white),
-                              ),
-                              CircleAvatar(
-                                backgroundColor: Colors.deepPurple,
-                                child: FaIcon(FontAwesomeIcons.dev,
-                                    color: Colors.white),
-                              ),
-                            ],
-                          )),
-                        )
-                      ],
-                    )),
-              ),
-              Expanded(
-                  flex: 4,
-                  child: SizedBox(
-                    height: size.height * 1.2,
-                    child: WorkBox(),
-                  ))
-            ],
-          )
-        ],
-      ),
-    );
-  }
-}
+//   @override
+//   _WorkState createState() => _WorkState();
+// }
+
+// class _WorkState extends ConsumerState<Work> {
+//   late List<String> companies;
+//   int selectedIndex = 0;
+
+//   @override
+//   void initState() {
+//     super.initState();
+
+//     // Initialize companies from portfolio data
+//     companies = [];
+//     if (widget.portfolioData.experience != null &&
+//         widget.portfolioData.experience!.isNotEmpty) {
+//       for (var exp in widget.portfolioData.experience!) {
+//         if (exp.company != null && exp.company!.isNotEmpty) {
+//           companies.add(exp.company!);
+//         }
+//       }
+//     }
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     if (companies.isEmpty) {
+//       return const SizedBox
+//           .shrink(); // If no experience data, don't show this section
+//     }
+
+//     return Container(
+//       padding: const EdgeInsets.symmetric(vertical: 48.0),
+//       child: Column(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const MainTitle(number: "02.", text: "Where I've Worked"),
+//           const SizedBox(height: 40.0),
+//           Row(
+//             children: [
+//               // Company Tabs
+//               SizedBox(
+//                 width: 200.0,
+//                 child: ListView.builder(
+//                   shrinkWrap: true,
+//                   physics: const NeverScrollableScrollPhysics(),
+//                   itemCount: companies.length,
+//                   itemBuilder: (context, index) {
+//                     return CompanyTab(
+//                       company: companies[index],
+//                       isSelected: selectedIndex == index,
+//                       onTap: () {
+//                         setState(() {
+//                           selectedIndex = index;
+//                         });
+//                       },
+//                     );
+//                   },
+//                 ),
+//               ),
+//               const SizedBox(width: 32.0),
+//               // Experience Details
+//               Expanded(
+//                 child: _buildExperienceDetails(selectedIndex),
+//               ),
+//             ],
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+
+//   Widget _buildExperienceDetails(int index) {
+//     if (widget.portfolioData.experience != null &&
+//         widget.portfolioData.experience!.length > index) {
+//       // Use data from portfolio
+//       final exp = widget.portfolioData.experience![index];
+//       return ExperienceCard(
+//         title: exp.title ?? "",
+//         company: exp.company ?? "",
+//         duration: exp.duration ?? "",
+//         points: exp.responsibilities ?? [],
+//       );
+//     }
+
+//     // If no experience data for this index, return empty container
+//     return Container();
+//   }
+// }
+
+// class CompanyTab extends StatelessWidget {
+//   final String company;
+//   final bool isSelected;
+//   final VoidCallback onTap;
+
+//   const CompanyTab({
+//     super.key,
+//     required this.company,
+//     required this.isSelected,
+//     required this.onTap,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return InkWell(
+//       onTap: onTap,
+//       child: Container(
+//         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+//         decoration: BoxDecoration(
+//           border: Border(
+//             left: BorderSide(
+//               color: isSelected ? const Color(0xff64FFDA) : Colors.transparent,
+//               width: 2.0,
+//             ),
+//           ),
+//           color: isSelected ? const Color(0xff112240) : Colors.transparent,
+//         ),
+//         child: Text(
+//           company,
+//           style: TextStyle(
+//             color:
+//                 isSelected ? const Color(0xff64FFDA) : const Color(0xff8892B0),
+//             fontSize: 13.0,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+// class ExperienceCard extends StatelessWidget {
+//   final String title;
+//   final String company;
+//   final String duration;
+//   final List<String> points;
+
+//   const ExperienceCard({
+//     super.key,
+//     required this.title,
+//     required this.company,
+//     required this.duration,
+//     required this.points,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       crossAxisAlignment: CrossAxisAlignment.start,
+//       children: [
+//         Text(
+//           title,
+//           style: const TextStyle(
+//             color: Color(0xffCCD6F6),
+//             fontSize: 20.0,
+//             fontWeight: FontWeight.w600,
+//           ),
+//         ),
+//         const SizedBox(height: 4.0),
+//         Text(
+//           company,
+//           style: const TextStyle(
+//             color: Color(0xff64FFDA),
+//             fontSize: 14.0,
+//           ),
+//         ),
+//         const SizedBox(height: 4.0),
+//         Text(
+//           duration,
+//           style: const TextStyle(
+//             color: Color(0xff8892B0),
+//             fontSize: 14.0,
+//           ),
+//         ),
+//         const SizedBox(height: 16.0),
+//         Column(
+//           children: points.map((point) => _buildBulletPoint(point)).toList(),
+//         ),
+//       ],
+//     );
+//   }
+
+//   Widget _buildBulletPoint(String text) {
+//     return Padding(
+//       padding: const EdgeInsets.only(bottom: 8.0),
+//       child: Row(
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           const Text(
+//             "▹",
+//             style: TextStyle(
+//               color: Color(0xff64FFDA),
+//               fontSize: 14.0,
+//             ),
+//           ),
+//           const SizedBox(width: 8.0),
+//           Expanded(
+//             child: Text(
+//               text,
+//               style: const TextStyle(
+//                 color: Color(0xff8892B0),
+//                 fontSize: 14.0,
+//                 height: 1.5,
+//               ),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
