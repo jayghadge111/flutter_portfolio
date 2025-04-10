@@ -1,7 +1,8 @@
 import 'dart:developer';
 import 'dart:html' as html;
 import 'dart:typed_data';
-import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart'
+    show Clipboard, ClipboardData, rootBundle;
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,17 +97,7 @@ class HomePageState extends ConsumerState<HomePage> {
                       'images/flutter_portfolio_logo.png',
                       height: size.height * 0.30,
                     ),
-                    // const FaIcon(
-                    //   FontAwesomeIcons.android,
-                    //   color: Colors.white,
-                    //   size: 25.0,
-                    // ),
-                    // const SizedBox(width: 15),
-                    // const FaIcon(
-                    //   FontAwesomeIcons.apple,
-                    //   color: Colors.white,
-                    //   size: 25.0,
-                    // ),
+
                     const Spacer(),
                     Expanded(
                       child: DefaultTabController(
@@ -210,30 +201,33 @@ class SocialLinks extends StatelessWidget {
         children: [
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.github),
-            color: const Color(0xffffA8B2D1),
-            iconSize: 16.0,
+            color: Colors.grey,
+            iconSize: 20,
             onPressed: () =>
                 method.launchURL("https://github.com/jayghadge111"),
           ),
+          SizedBox(height: 10),
           IconButton(
             icon: const FaIcon(FontAwesomeIcons.linkedin),
-            color: const Color(0xffffA8B2D1),
-            iconSize: 16.0,
+            color: Colors.grey,
+            iconSize: 20,
             onPressed: () => method.launchURL(
                 linkedinUrl ?? "https://www.linkedin.com/in/jayesh-ghadge/"),
           ),
+          SizedBox(height: 10),
           IconButton(
-            icon: const Icon(Icons.call),
-            color: const Color(0xffffA8B2D1),
-            iconSize: 16.0,
+            icon: const Icon(FontAwesomeIcons.phone),
+            color: Colors.grey,
+            iconSize: 20,
             onPressed: () => phone != null
                 ? method.launchCaller(phoneNumber: phone)
                 : method.launchCaller(),
           ),
+          SizedBox(height: 10),
           IconButton(
-            icon: const Icon(Icons.mail),
-            color: const Color(0xffffA8B2D1),
-            iconSize: 16.0,
+            icon: const Icon(FontAwesomeIcons.envelope),
+            color: Colors.grey,
+            iconSize: 20,
             onPressed: () => email != null
                 ? method.launchEmail(email: email)
                 : method.launchEmail(),
@@ -241,9 +235,9 @@ class SocialLinks extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Container(
-              height: size.height * 0.20,
-              width: 2,
-              color: Colors.grey.withOpacity(0.4),
+              height: size.height * 0.25,
+              width: 1,
+              color: Colors.grey,
             ),
           ),
         ],
@@ -371,7 +365,7 @@ class IntroductionSection extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: size.height * 0.12),
+        SizedBox(height: size.height * 0.075),
       ],
     );
   }
@@ -400,8 +394,8 @@ class EmailSection extends StatelessWidget {
             child: Text(
               email,
               style: TextStyle(
-                color: Colors.grey.withOpacity(0.6),
-                letterSpacing: 3.0,
+                color: Colors.grey,
+                letterSpacing: 4.0,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -409,9 +403,9 @@ class EmailSection extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
             child: Container(
-              height: 100,
-              width: 2,
-              color: Colors.grey.withOpacity(0.4),
+              height: size.height * 0.25,
+              width: 1,
+              color: Colors.grey,
             ),
           ),
         ],
@@ -1079,26 +1073,55 @@ class ContactSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 32.0),
-          ElevatedButton(
-            onPressed: () => launchUrl(
-                Uri.parse("mailto:${email ?? 'jayghage111@gmail.com'}")),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xff64FFDA),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(4.0),
-              ),
-            ),
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
-              child: Text(
-                "Say Hello",
-                style: TextStyle(
-                  color: Color(0xff0A192F),
-                  fontSize: 14.0,
-                  fontFamily: 'SF Mono',
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              IconButton(
+                icon: Icon(FontAwesomeIcons.whatsapp),
+                color: const Color(0xff8892B0),
+                iconSize: 25.0,
+                onPressed: () => launchUrl(
+                  Uri.parse(
+                      "https://wa.me/919970900787?text=${Uri.encodeComponent('Hi Jayesh, I saw your portfolio!')}"),
+                  mode: LaunchMode.externalApplication,
                 ),
               ),
-            ),
+              SizedBox(width: 15),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.phone),
+                color: Color(0xff8892B0),
+                iconSize: 25.0,
+                onPressed: () async {
+                  Clipboard.setData(ClipboardData(text: '+919970900787'));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Phone Number copied!')),
+                  );
+                  Future.delayed(Duration(seconds: 2)).then((value) async {
+                    final Uri uri = Uri(scheme: 'tel', path: '+919970900787');
+                    if (await canLaunchUrl(uri)) {
+                      await launchUrl(uri);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Cannot launch dialer')),
+                      );
+                    }
+                  });
+                },
+              ),
+              SizedBox(width: 15),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.envelope),
+                color: Color(0xff8892B0),
+                iconSize: 25.0,
+                onPressed: () async {
+                  Clipboard.setData(
+                      ClipboardData(text: email ?? 'jayghage111@gmail.com'));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Email address copied!')),
+                  );
+                },
+              ),
+            ],
           ),
         ],
       ),
@@ -1146,8 +1169,8 @@ class Footer extends StatelessWidget {
           const Text(
             "Designed & Built by Jayesh Ghadge 💙 Flutter",
             style: TextStyle(
-              color: Colors.white70,
-              fontSize: 18.0,
+              color: Colors.white38,
+              fontSize: 16.0,
               fontFamily: 'SF Mono',
             ),
           ),
