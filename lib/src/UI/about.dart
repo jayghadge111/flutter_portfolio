@@ -25,7 +25,7 @@ class About extends ConsumerWidget {
             style: const TextStyle(
               color: Color(0xff717C99),
               letterSpacing: 1.75,
-              fontSize: 13,
+              fontSize: 15,
             ),
           ),
         ),
@@ -41,7 +41,7 @@ class About extends ConsumerWidget {
           title,
           style: const TextStyle(
             color: Color(0xffCCD6F6),
-            fontSize: 14.0,
+            fontSize: 16.0,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -101,7 +101,7 @@ class About extends ConsumerWidget {
     final rightColumn = allSkillSections.skip(midpoint).toList();
 
     return SizedBox(
-      height: size.height - 100,
+      height: size.height - 90,
       width: size.width - 100,
       child: Row(
         children: [
@@ -143,14 +143,14 @@ class About extends ConsumerWidget {
                     CustomText(
                       text:
                           "Hello! I'm ${portfolioData.name ?? 'Jayesh'}, a Flutter Platform Expert currently based in ${portfolioData.contact?.currentAddress ?? 'Pune, Maharashtra, India'}.\n\n",
-                      textsize: 16.0,
+                      textsize: 18.0,
                       color: const Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
                     CustomText(
                       text: portfolioData.summary ??
                           "At the forefront of Kaar Tech's mobile app development, our team strategically leverages Flutter to create cutting-edge solutions for Aramco.\n\n",
-                      textsize: 16.0,
+                      textsize: 18.0,
                       color: const Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
@@ -160,7 +160,7 @@ class About extends ConsumerWidget {
                     const CustomText(
                       text:
                           "Here’s a snapshot of the tools and technologies I’ve used in recent projects:\n",
-                      textsize: 16.0,
+                      textsize: 18.0,
                       color: Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
@@ -274,11 +274,11 @@ class CustomImageAnimationState extends State<CustomImageAnimation> {
               image: AssetImage("images/pic1.jpg"),
             ),
           ),
-          Container(
-            height: size.height / 2,
-            width: size.width / 5,
-            color: customImageColor,
-          ),
+          // Container(
+          //   height: size.height / 2,
+          //   width: size.width / 5,
+          //   color: customImageColor,
+          // ),
         ],
       ),
     );

@@ -241,21 +241,48 @@ class SocialLinks extends StatelessWidget {
           ),
           SizedBox(height: 10),
           IconButton(
-            icon: const Icon(FontAwesomeIcons.phone),
-            color: Colors.grey,
-            iconSize: 20,
-            onPressed: () => phone != null
-                ? method.launchCaller(phoneNumber: phone)
-                : method.launchCaller(),
+            icon: Icon(FontAwesomeIcons.whatsapp),
+            color: const Color(0xff8892B0),
+            iconSize: 25.0,
+            onPressed: () => launchUrl(
+              Uri.parse(
+                  "https://wa.me/919970900787?text=${Uri.encodeComponent('Hi Jayesh, I saw your portfolio!')}"),
+              mode: LaunchMode.externalApplication,
+            ),
           ),
+          SizedBox(height: 10),
+          IconButton(
+              icon: const Icon(FontAwesomeIcons.phone),
+              color: Colors.grey,
+              iconSize: 20,
+              onPressed: () {
+                Clipboard.setData(ClipboardData(text: '+919970900787'));
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Phone Number copied!')),
+                );
+                Future.delayed(Duration(seconds: 2)).then((value) async {
+                  final Uri uri = Uri(scheme: 'tel', path: '+919970900787');
+                  if (await canLaunchUrl(uri)) {
+                    await launchUrl(uri);
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Cannot launch dialer')),
+                    );
+                  }
+                });
+              }),
           SizedBox(height: 10),
           IconButton(
             icon: const Icon(FontAwesomeIcons.envelope),
             color: Colors.grey,
             iconSize: 20,
-            onPressed: () => email != null
-                ? method.launchEmail(email: email)
-                : method.launchEmail(),
+            onPressed: () async {
+              Clipboard.setData(
+                  ClipboardData(text: email ?? 'jayghage111@gmail.com'));
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text('Email address copied!')),
+              );
+            },
           ),
           Padding(
             padding: const EdgeInsets.only(top: 16.0),
@@ -569,7 +596,7 @@ class CompanyTab extends StatelessWidget {
           style: TextStyle(
             color:
                 isSelected ? const Color(0xff64FFDA) : const Color(0xff8892B0),
-            fontSize: 13.0,
+            fontSize: 16.0,
           ),
         ),
       ),
@@ -600,7 +627,7 @@ class ExperienceCard extends StatelessWidget {
           title,
           style: const TextStyle(
             color: Color(0xffCCD6F6),
-            fontSize: 20.0,
+            fontSize: 21.0,
             fontWeight: FontWeight.w600,
           ),
         ),
@@ -609,7 +636,7 @@ class ExperienceCard extends StatelessWidget {
           company,
           style: const TextStyle(
             color: Color(0xff64FFDA),
-            fontSize: 14.0,
+            fontSize: 16.0,
           ),
         ),
         const SizedBox(height: 4.0),
@@ -617,7 +644,7 @@ class ExperienceCard extends StatelessWidget {
           duration,
           style: const TextStyle(
             color: Color(0xff8892B0),
-            fontSize: 14.0,
+            fontSize: 16.0,
           ),
         ),
         const SizedBox(height: 16.0),
@@ -638,7 +665,7 @@ class ExperienceCard extends StatelessWidget {
             "▹",
             style: TextStyle(
               color: Color(0xff64FFDA),
-              fontSize: 14.0,
+              fontSize: 16.0,
             ),
           ),
           const SizedBox(width: 8.0),
@@ -647,7 +674,7 @@ class ExperienceCard extends StatelessWidget {
               text,
               style: const TextStyle(
                 color: Color(0xff8892B0),
-                fontSize: 14.0,
+                fontSize: 16.0,
                 height: 1.5,
               ),
             ),
