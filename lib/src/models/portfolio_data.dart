@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class PortfolioData {
   String? name;
   Contact? contact;
@@ -25,6 +27,11 @@ class PortfolioData {
       this.dob,
       this.maritalStatus,
       this.interests});
+
+  factory PortfolioData.fromRawJson(String str) =>
+      PortfolioData.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   PortfolioData.fromJson(Map<String, dynamic> json) {
     name = json['name'];

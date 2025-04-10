@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:jayesh_flutter/src/firebase_services/fallback_data.dart';
 
@@ -42,10 +43,21 @@ class RemoteConfigService {
   static Future<RemoteConfigService> initialize() async {
     try {
       // Check if Firebase is already initialized
-      if (Firebase.apps.isEmpty) {
-        await Firebase.initializeApp(
-          options: firebaseOptions,
-        );
+      // Special handling for web platform
+      if (kIsWeb) {
+        // Check if Firebase is already initialized
+        if (Firebase.apps.isEmpty) {
+          await Firebase.initializeApp(
+            options: firebaseOptions,
+          );
+        }
+      } else {
+        // Non-web initialization
+        if (Firebase.apps.isEmpty) {
+          await Firebase.initializeApp(
+            options: firebaseOptions,
+          );
+        }
       }
 
       final remoteConfig = FirebaseRemoteConfig.instance;
@@ -113,7 +125,7 @@ PortfolioData getFallbackPortfolioData() {
 
   try {
     // Parse the JSON string and convert it to a PortfolioData object
-    return PortfolioData.fromJson(jsonDecode(fallbackJson));
+    return PortfolioData.fromRawJson(jsonDecode(fallbackJson));
   } catch (e) {
     log('Error parsing fallback JSON: $e');
     // If parsing fails, return a minimal portfolio data object to prevent a crash
