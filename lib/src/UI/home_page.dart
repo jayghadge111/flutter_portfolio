@@ -354,7 +354,7 @@ class IntroductionSection extends StatelessWidget {
         SizedBox(height: size.height * .06),
         const CustomText(
           text: "Hi, my name is",
-          textsize: 16.0,
+          textsize: 18.0,
           color: Color(0xff41FBDA),
           letterSpacing: 3.0,
         ),
