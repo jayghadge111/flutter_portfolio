@@ -119,25 +119,50 @@ class HomePageState extends ConsumerState<HomePage> {
                     ),
                     // Resume Button
                     const SizedBox(width: 20),
-                    Card(
-                      elevation: 4.0,
-                      color: const Color(0xff64FFDA),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                      ),
+
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
                       child: Container(
-                        margin: const EdgeInsets.all(0.85),
+                        margin: const EdgeInsets.all(8.0),
                         height: size.height * 0.05,
-                        width: size.height * 0.15,
+                        // width: size.height * 0.13,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(6.0),
+                          gradient: const LinearGradient(
+                            colors: [Color(0xff64FFDA), Color(0xff32D9A6)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(12.0),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black.withOpacity(0.15),
+                              blurRadius: 10,
+                              offset: const Offset(0, 5),
+                            ),
+                          ],
                         ),
-                        child: TextButton(
+                        child: TextButton.icon(
                           onPressed: downloadFileFromAssets,
-                          child: const Text(
-                            "Download Resume",
-                            style: TextStyle(color: Color(0xff0A192F)),
+                          icon: FaIcon(
+                            FontAwesomeIcons.circleArrowDown,
+                            color: Color(0xff0A192F),
+                          ),
+                          label: const Text(
+                            "Download",
+                            style: TextStyle(
+                              color: Color(0xff0A192F),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                            ),
+                          ),
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.transparent,
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12.0),
+                            ),
                           ),
                         ),
                       ),
@@ -336,7 +361,7 @@ class IntroductionSection extends StatelessWidget {
         const SizedBox(height: 6.0),
         CustomText(
           text: name ?? "",
-          textsize: 68.0,
+          textsize: 50.0,
           color: const Color(0xffCCD6F6),
           fontWeight: FontWeight.w900,
         ),
@@ -347,11 +372,11 @@ class IntroductionSection extends StatelessWidget {
           // portfolioData.domains?.isNotEmpty == true
           //     ? portfolioData.domains!.first
           //     : "",
-          textsize: 56.0,
+          textsize: 35.0,
           color: const Color(0xffCCD6F6).withOpacity(0.6),
           fontWeight: FontWeight.w700,
         ),
-        SizedBox(height: size.height * .04),
+        SizedBox(height: size.height * .035),
         Wrap(
           children: [
             Text(
@@ -365,7 +390,7 @@ class IntroductionSection extends StatelessWidget {
             )
           ],
         ),
-        SizedBox(height: size.height * 0.075),
+        SizedBox(height: size.height * 0.06),
       ],
     );
   }
@@ -1037,25 +1062,43 @@ class ContactSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final Contact? contact = portfolioData.contact;
     final String? email = contact?.email;
+    var size = MediaQuery.of(context).size;
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 48.0),
       child: Column(
         children: [
-          const Text(
-            "04. What's Next?",
-            style: TextStyle(
-              color: Color(0xff64FFDA),
-              fontSize: 14.0,
-              fontFamily: 'SF Mono',
-            ),
+          // About me title
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const CustomText(
+                text: "04.",
+                textsize: 20.0,
+                color: Color(0xff61F9D5),
+                fontWeight: FontWeight.w700,
+              ),
+              const SizedBox(width: 12.0),
+              const CustomText(
+                text: " What's Next?",
+                textsize: 26.0,
+                color: Color(0xffCCD6F6),
+                fontWeight: FontWeight.w700,
+              ),
+              SizedBox(width: size.width * 0.01),
+              Container(
+                width: size.width / 4,
+                height: 1.10,
+                color: const Color(0xff303C55),
+              ),
+            ],
           ),
-          const SizedBox(height: 16.0),
+          const SizedBox(height: 30.0),
           const Text(
             "Get In Touch",
             style: TextStyle(
               color: Color(0xffCCD6F6),
-              fontSize: 48.0,
+              fontSize: 35.0,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -1064,7 +1107,7 @@ class ContactSection extends StatelessWidget {
             width: 500,
             alignment: Alignment.center,
             child: const Text(
-              "I'm currently looking for new opportunities. Whether you have a question or just want to say hi, feel free to reach out!",
+              "I'm open to new opportunities. If you have a question or simply want to connect, don't hesitate to reach out!",
               style: TextStyle(
                 color: Color(0xff8892B0),
                 fontSize: 16.0,
