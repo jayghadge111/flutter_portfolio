@@ -8,7 +8,7 @@ const portfolioData = '''
     "current_address": "Reeza Suits, Al Khobar, Eastern Province, Saudi Arabia",
     "permanent_address": "18-19 Sai Sawali Apt, Neharu Nagar, Jalgaon, Maharashtra - 425001"
   },
-  "summary": "Senior Flutter Developer with 9+ years of experience in mobile application development, with 6.5+ years of hands-on Flutter expertise. Delivered scalable apps across BFSI, travel, and enterprise security sectors.",
+  "summary": "Senior Flutter Developer with over 9 years of experience in mobile application development, including 6.5+ years of hands-on expertise in Flutter. Proven track record of building scalable, high-performance apps across BFSI, travel, and enterprise security domains.",
   "skills": {
     "mobile_development": ["Flutter", "Android (Java)", "iOS (Swift)"],
     "architecture": ["MVVM", "MVC", "Clean Architecture", "BLoC"],

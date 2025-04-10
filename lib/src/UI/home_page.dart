@@ -352,12 +352,12 @@ class IntroductionSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: size.height * .06),
-        const CustomText(
-          text: "Hi, my name is",
-          textsize: 18.0,
-          color: Color(0xff41FBDA),
-          letterSpacing: 3.0,
-        ),
+        // const CustomText(
+        //   text: "Hi, my name is",
+        //   textsize: 18.0,
+        //   color: Color(0xff41FBDA),
+        //   letterSpacing: 3.0,
+        // ),
         const SizedBox(height: 6.0),
         CustomText(
           text: name ?? "",
