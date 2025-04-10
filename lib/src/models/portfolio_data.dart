@@ -200,7 +200,7 @@ class Projects {
   String? description;
   String? platform;
   String? status;
-  Link? link;
+  String? image;
   Links? links;
 
   Projects(
@@ -208,7 +208,7 @@ class Projects {
       this.description,
       this.platform,
       this.status,
-      this.link,
+      this.image,
       this.links});
 
   Projects.fromJson(Map<String, dynamic> json) {
@@ -216,7 +216,7 @@ class Projects {
     description = json['description'];
     platform = json['platform'];
     status = json['status'];
-    link = json['link'] != null ? Link.fromJson(json['link']) : null;
+    image = json['image'];
     links = json['links'] != null ? Links.fromJson(json['links']) : null;
   }
 
@@ -226,31 +226,10 @@ class Projects {
     data['description'] = description;
     data['platform'] = platform;
     data['status'] = status;
-    if (link != null) {
-      data['link'] = link!.toJson();
-    }
+    data['image'] = image;
     if (links != null) {
       data['links'] = links!.toJson();
     }
-    return data;
-  }
-}
-
-class Link {
-  String? playStore;
-  String? appStore;
-
-  Link({this.playStore, this.appStore});
-
-  Link.fromJson(Map<String, dynamic> json) {
-    playStore = json['playStore'];
-    appStore = json['appStore'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['playStore'] = playStore;
-    data['appStore'] = appStore;
     return data;
   }
 }

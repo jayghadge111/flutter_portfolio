@@ -12,22 +12,45 @@ class About extends ConsumerWidget {
     required this.portfolioData,
   });
 
-  Widget technology(BuildContext context, String text) {
+  Widget skillItem(BuildContext context, String text) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(
-          Icons.skip_next,
-          color: const Color(0xff64FFDA).withOpacity(0.6),
-          size: 14.0,
-        ),
-        SizedBox(width: MediaQuery.of(context).size.width * 0.01),
-        Text(
-          text,
-          style: const TextStyle(
-            color: Color(0xff717C99),
-            letterSpacing: 1.75,
+        Icon(Icons.skip_next,
+            color: const Color(0xff64FFDA).withOpacity(0.6), size: 14.0),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.005),
+        Flexible(
+          child: Text(
+            text,
+            style: const TextStyle(
+              color: Color(0xff717C99),
+              letterSpacing: 1.75,
+              fontSize: 13,
+            ),
           ),
-        )
+        ),
+      ],
+    );
+  }
+
+  Widget skillCategory(BuildContext context, String title, List<String> items) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            color: Color(0xffCCD6F6),
+            fontSize: 14.0,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 6),
+        ...items.map((e) => Padding(
+              padding: const EdgeInsets.only(bottom: 6.0),
+              child: skillItem(context, e),
+            )),
+        const SizedBox(height: 14),
       ],
     );
   }
@@ -35,56 +58,61 @@ class About extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var size = MediaQuery.of(context).size;
-
-    // Get skills from portfolioData
     final skills = portfolioData.skills;
-    final List<String> firstColumnSkills = [];
-    final List<String> secondColumnSkills = [];
 
-    if (skills != null) {
-      if (skills.mobileDevelopment != null &&
-          skills.mobileDevelopment!.isNotEmpty) {
-        firstColumnSkills.addAll(skills.mobileDevelopment!.take(4));
-      }
-      if (skills.stateManagement != null &&
-          skills.stateManagement!.isNotEmpty) {
-        secondColumnSkills.addAll(skills.stateManagement!.take(2));
-      }
-      if (skills.database != null && skills.database!.isNotEmpty) {
-        secondColumnSkills.addAll(skills.database!.take(2));
-      }
-      if (skills.tools != null && skills.tools!.isNotEmpty) {
-        firstColumnSkills.add(skills.tools!.first);
-        if (skills.tools!.length > 1) {
-          secondColumnSkills.add(skills.tools![1]);
-        }
-      }
+    // Build skill category widgets dynamically
+    final allSkillSections = <Widget>[];
+
+    if (skills?.mobileDevelopment != null) {
+      allSkillSections.add(skillCategory(
+          context, "Mobile Development", skills!.mobileDevelopment!));
+    }
+    if (skills?.stateManagement != null) {
+      allSkillSections.add(
+          skillCategory(context, "State Management", skills!.stateManagement!));
+    }
+    if (skills?.architecture != null) {
+      allSkillSections
+          .add(skillCategory(context, "Architecture", skills!.architecture!));
+    }
+    if (skills?.tools != null) {
+      allSkillSections.add(skillCategory(context, "Tools", skills!.tools!));
+    }
+    if (skills?.backendIntegration != null) {
+      allSkillSections.add(skillCategory(
+          context, "Backend Integration", skills!.backendIntegration!));
+    }
+    if (skills?.security != null) {
+      allSkillSections
+          .add(skillCategory(context, "Security", skills!.security!));
+    }
+    if (skills?.database != null) {
+      allSkillSections
+          .add(skillCategory(context, "Database", skills!.database!));
     }
 
-    // Fallback skills if none are found
-    if (firstColumnSkills.isEmpty) {
-      firstColumnSkills
-          .addAll(["Dart", "Flutter", "Firebase", "UI/UX (Adobe Xd)"]);
+    if (skills?.testing != null) {
+      allSkillSections.add(skillCategory(context, "Testing", skills!.testing!));
     }
-    if (secondColumnSkills.isEmpty) {
-      secondColumnSkills.addAll(
-          ["Clean Architecture", "MVVM Pattern", "GraphQL", "Android/iOS"]);
-    }
+
+    // Split skills into two columns
+    final midpoint = (allSkillSections.length / 2).ceil();
+    final leftColumn = allSkillSections.take(midpoint).toList();
+    final rightColumn = allSkillSections.skip(midpoint).toList();
 
     return SizedBox(
-      height: size.height,
+      height: size.height - 100,
       width: size.width - 100,
       child: Row(
         children: [
-          // About me
+          // Left side: About Me
           SizedBox(
-            height: size.height * 0.9,
             width: size.width / 2 - 100,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // About me title
+                // Header
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const CustomText(
                       text: "01.",
@@ -107,9 +135,9 @@ class About extends ConsumerWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: size.height * 0.07),
+                const SizedBox(height: 40),
 
-                // About me description
+                // Description
                 Wrap(
                   children: [
                     CustomText(
@@ -121,14 +149,17 @@ class About extends ConsumerWidget {
                     ),
                     CustomText(
                       text: portfolioData.summary ??
-                          "At the forefront of Kaar Tech's mobile app development, our team strategically leverages Flutter to create cutting-edge solutions for Aramco, ensuring seamless performance and robust security. A solid foundation in engineering, augmented by proficiency in POD, Document Object Model (DOM), and Google Maps API, underpins our approach to delivering sophisticated B2B and B2C applications.\n\n",
+                          "At the forefront of Kaar Tech's mobile app development, our team strategically leverages Flutter to create cutting-edge solutions for Aramco.\n\n",
                       textsize: 16.0,
                       color: const Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
+                    SizedBox(
+                      height: size.height * 0.1,
+                    ),
                     const CustomText(
                       text:
-                          "Here are a few technologies I've been working with recently:\n\n",
+                          "Here’s a snapshot of the tools and technologies I’ve used in recent projects:\n",
                       textsize: 16.0,
                       color: Color(0xff828DAA),
                       letterSpacing: 0.75,
@@ -136,41 +167,33 @@ class About extends ConsumerWidget {
                   ],
                 ),
 
-                SizedBox(
-                  height: size.height * 0.15,
-                  width: size.width,
-                  child: Wrap(
-                    children: [
-                      SizedBox(
-                        width: size.width * 0.20,
-                        height: size.height * 0.15,
-                        child: Column(
-                          children: firstColumnSkills
-                              .map((skill) => technology(context, skill))
-                              .toList(),
-                        ),
+                // Two-column skills
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: leftColumn,
                       ),
-                      SizedBox(
-                        width: size.width * 0.15,
-                        height: size.height * 0.15,
-                        child: Column(
-                          children: secondColumnSkills
-                              .map((skill) => technology(context, skill))
-                              .toList(),
-                        ),
-                      )
-                    ],
-                  ),
+                    ),
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: rightColumn,
+                      ),
+                    ),
+                  ],
                 )
               ],
             ),
           ),
 
-          // Profile Image
+          // Right side: Profile image
           Expanded(
             child: SizedBox(
               height: size.height / 1.5,
-              width: size.width / 2 - 100,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -187,11 +210,11 @@ class About extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const CustomImageAnimation()
+                  const CustomImageAnimation(),
                 ],
               ),
             ),
-          ),
+          )
         ],
       ),
     );
@@ -248,7 +271,7 @@ class CustomImageAnimationState extends State<CustomImageAnimation> {
             color: Colors.black54,
             child: const Image(
               fit: BoxFit.cover,
-              image: AssetImage("images/pic1.png"),
+              image: AssetImage("images/pic1.jpg"),
             ),
           ),
           Container(

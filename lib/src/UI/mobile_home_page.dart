@@ -429,8 +429,6 @@ class MobileHomePageState extends ConsumerState<MobileHomePage> {
               projectLink = project.links!.web!;
             } else if (project.links?.playStore != null) {
               projectLink = project.links!.playStore!;
-            } else if (project.link?.playStore != null) {
-              projectLink = project.link!.playStore!;
             }
 
             return MobileProject(

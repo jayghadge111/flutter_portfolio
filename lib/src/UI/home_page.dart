@@ -700,7 +700,7 @@ class ProjectsSection extends ConsumerWidget {
                 title: project.name ?? "",
                 description: project.description ?? "",
                 imageUrl:
-                    "images/${project.name?.replaceAll(' ', '_').toLowerCase() ?? 'project'}.jpg",
+                    "project_images/${project.image?.replaceAll(' ', '_').toLowerCase() ?? 'project'}",
                 tags: _getProjectTags(project),
                 links: _getProjectLinks(project),
               );
@@ -726,16 +726,18 @@ class ProjectsSection extends ConsumerWidget {
                 crossAxisCount: 3,
                 crossAxisSpacing: 16.0,
                 mainAxisSpacing: 16.0,
-                childAspectRatio: 1.0,
+                childAspectRatio: 5 / 4.25,
               ),
               itemCount: otherProjects.length,
               itemBuilder: (context, index) {
                 final project = otherProjects[index];
                 return ProjectCard(
+                  imageUrl:
+                      "project_images/${project.image?.replaceAll(' ', '_').toLowerCase() ?? ''}",
                   title: project.name ?? "",
                   description: project.description ?? "",
                   tags: _getProjectTags(project),
-                  link: _getPrimaryProjectLink(project),
+                  links: _getAllProjectLinks(project),
                 );
               },
             ),
@@ -785,55 +787,29 @@ class ProjectsSection extends ConsumerWidget {
         links["Web"] = project.links!.web!;
       }
     }
-    // Then check for links in Link object
-    else if (project.link != null) {
-      if (project.link!.playStore != null &&
-          project.link!.playStore!.isNotEmpty) {
-        links["Play Store"] = project.link!.playStore!;
-      }
-      if (project.link!.appStore != null &&
-          project.link!.appStore!.isNotEmpty) {
-        links["App Store"] = project.link!.appStore!;
-      }
-    }
 
     return links;
   }
 
-  // Get the primary link for a project
-  String _getPrimaryProjectLink(Projects project) {
-    // Try to get a link in this priority order: web > playStore > appStore > indusAppStore
+  Map<String, String> _getAllProjectLinks(Projects project) {
+    final Map<String, String> links = {};
+
     if (project.links != null) {
-      if (project.links!.web != null && project.links!.web!.isNotEmpty) {
-        return project.links!.web!;
+      if (project.links!.web?.isNotEmpty ?? false) {
+        links['web'] = project.links!.web!;
       }
-      if (project.links!.playStore != null &&
-          project.links!.playStore!.isNotEmpty) {
-        return project.links!.playStore!;
+      if (project.links!.playStore?.isNotEmpty ?? false) {
+        links['playStore'] = project.links!.playStore!;
       }
-      if (project.links!.appStore != null &&
-          project.links!.appStore!.isNotEmpty) {
-        return project.links!.appStore!;
+      if (project.links!.appStore?.isNotEmpty ?? false) {
+        links['appStore'] = project.links!.appStore!;
       }
-      if (project.links!.indusAppStore != null &&
-          project.links!.indusAppStore!.isNotEmpty) {
-        return project.links!.indusAppStore!;
+      if (project.links!.indusAppStore?.isNotEmpty ?? false) {
+        links['indusAppStore'] = project.links!.indusAppStore!;
       }
     }
 
-    if (project.link != null) {
-      if (project.link!.playStore != null &&
-          project.link!.playStore!.isNotEmpty) {
-        return project.link!.playStore!;
-      }
-      if (project.link!.appStore != null &&
-          project.link!.appStore!.isNotEmpty) {
-        return project.link!.appStore!;
-      }
-    }
-
-    // Fallback to a default URL
-    return "#";
+    return links;
   }
 }
 
@@ -859,6 +835,7 @@ class FeaturedProject extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 48.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           // Project Image
           Expanded(
@@ -965,17 +942,19 @@ class FeaturedProject extends StatelessWidget {
 }
 
 class ProjectCard extends StatelessWidget {
+  final String imageUrl;
   final String title;
   final String description;
   final List<String> tags;
-  final String link;
+  final Map<String, String> links; // Updated
 
   const ProjectCard({
     super.key,
+    required this.imageUrl,
     required this.title,
     required this.description,
     required this.tags,
-    required this.link,
+    required this.links,
   });
 
   @override
@@ -990,42 +969,16 @@ class ProjectCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Icon(
-                Icons.folder_outlined,
-                color: Color(0xff64FFDA),
-                size: 32.0,
-              ),
-              IconButton(
-                icon: const Icon(
-                  Icons.launch,
-                  color: Color(0xffCCD6F6),
-                  size: 20.0,
-                ),
-                onPressed: () => launchUrl(Uri.parse(link)),
-              ),
-            ],
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: _buildLinkIcons(),
           ),
           const SizedBox(height: 16.0),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Color(0xffCCD6F6),
-              fontSize: 18.0,
-              fontWeight: FontWeight.w600,
+          Center(
+            child: Image.asset(
+              imageUrl,
+              height: 220,
+              fit: BoxFit.cover,
             ),
-          ),
-          const SizedBox(height: 8.0),
-          Text(
-            description,
-            style: const TextStyle(
-              color: Color(0xff8892B0),
-              fontSize: 14.0,
-              height: 1.5,
-            ),
-            maxLines: 3,
-            overflow: TextOverflow.ellipsis,
           ),
           const Spacer(),
           Wrap(
@@ -1035,6 +988,62 @@ class ProjectCard extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  List<Widget> _buildLinkIcons() {
+    final List<Widget> icons = [
+      Expanded(
+        flex: 4,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: const TextStyle(
+                color: Color(0xffCCD6F6),
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
+            const SizedBox(height: 8.0),
+            Text(
+              description,
+              style: const TextStyle(
+                color: Color(0xff8892B0),
+                fontSize: 14.0,
+                height: 1.5,
+              ),
+              maxLines: 3,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ),
+      ),
+      Spacer(),
+    ];
+
+    if (links['web'] != null) {
+      icons.add(_buildIcon(FontAwesomeIcons.chrome, links['web']!));
+    }
+    if (links['playStore'] != null) {
+      icons.add(_buildIcon(FontAwesomeIcons.android, links['playStore']!));
+    }
+    if (links['appStore'] != null) {
+      icons.add(_buildIcon(FontAwesomeIcons.apple, links['appStore']!));
+    }
+    if (links['indusAppStore'] != null) {
+      icons.add(_buildIcon(FontAwesomeIcons.store, links['indusAppStore']!));
+    }
+
+    return icons;
+  }
+
+  Widget _buildIcon(IconData icon, String url) {
+    return IconButton(
+      icon: Icon(icon, color: Color(0xff64FFDA), size: 20.0),
+      onPressed: () => launchUrl(Uri.parse(url)),
+      tooltip: url,
     );
   }
 
@@ -1103,11 +1112,11 @@ class ContactSection extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 16.0),
-          Container(
+          SizedBox(
             width: 500,
-            alignment: Alignment.center,
             child: const Text(
               "I'm open to new opportunities. If you have a question or simply want to connect, don't hesitate to reach out!",
+              textAlign: TextAlign.center,
               style: TextStyle(
                 color: Color(0xff8892B0),
                 fontSize: 16.0,
