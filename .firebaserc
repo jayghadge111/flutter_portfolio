@@ -3,6 +3,14 @@
     "default": "flutter-portfolio-175e9",
     "jayesh@111": "flutter-portfolio-175e9"
   },
-  "targets": {},
+  "targets": {
+    "flutter-portfolio-175e9": {
+      "hosting": {
+        "default": [
+          "flutter-portfolio-175e9"
+        ]
+      }
+    }
+  },
   "etags": {}
 }
