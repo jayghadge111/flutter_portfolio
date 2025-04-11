@@ -42,7 +42,7 @@ class PortfolioData {
   PortfolioData.fromJson(Map<String, dynamic> json) {
     name = json['name'];
     headline = json['headline'];
-    shortSummary = json['short_summary'];
+    shortSummary = json['shortSummary'];
     contact =
         json['contact'] != null ? Contact.fromJson(json['contact']) : null;
     summary = json['summary'];
@@ -79,7 +79,7 @@ class PortfolioData {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
     data['headline'] = headline;
-    data['short_summary'] = shortSummary;
+    data['shortSummary'] = shortSummary;
     if (contact != null) {
       data['contact'] = contact!.toJson();
     }
