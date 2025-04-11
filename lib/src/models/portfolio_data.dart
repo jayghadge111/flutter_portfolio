@@ -2,6 +2,8 @@ import 'dart:convert';
 
 class PortfolioData {
   String? name;
+  String? headline;
+  String? shortSummary;
   Contact? contact;
   String? summary;
   Skills? skills;
@@ -13,9 +15,12 @@ class PortfolioData {
   String? dob;
   String? maritalStatus;
   List<String>? interests;
+  CoreStrengthsAndExpertise? coreStrengthsAndExpertise;
 
   PortfolioData(
       {this.name,
+      this.headline,
+      this.shortSummary,
       this.contact,
       this.summary,
       this.skills,
@@ -26,7 +31,8 @@ class PortfolioData {
       this.languages,
       this.dob,
       this.maritalStatus,
-      this.interests});
+      this.interests,
+      this.coreStrengthsAndExpertise});
 
   factory PortfolioData.fromRawJson(String str) =>
       PortfolioData.fromJson(json.decode(str));
@@ -35,6 +41,8 @@ class PortfolioData {
 
   PortfolioData.fromJson(Map<String, dynamic> json) {
     name = json['name'];
+    headline = json['headline'];
+    shortSummary = json['short_summary'];
     contact =
         json['contact'] != null ? Contact.fromJson(json['contact']) : null;
     summary = json['summary'];
@@ -62,11 +70,16 @@ class PortfolioData {
     dob = json['dob'];
     maritalStatus = json['marital_status'];
     interests = json['interests'].cast<String>();
+    coreStrengthsAndExpertise = json['coreStrengthsAndExpertise'] != null
+        ? CoreStrengthsAndExpertise.fromJson(json['coreStrengthsAndExpertise'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['name'] = name;
+    data['headline'] = headline;
+    data['short_summary'] = shortSummary;
     if (contact != null) {
       data['contact'] = contact!.toJson();
     }
@@ -88,6 +101,9 @@ class PortfolioData {
     data['dob'] = dob;
     data['marital_status'] = maritalStatus;
     data['interests'] = interests;
+    if (coreStrengthsAndExpertise != null) {
+      data['coreStrengthsAndExpertise'] = coreStrengthsAndExpertise!.toJson();
+    }
     return data;
   }
 }
@@ -96,6 +112,8 @@ class Contact {
   List<String>? mobile;
   String? email;
   String? linkedin;
+  String? nationality;
+  String? currentCountry;
   String? currentAddress;
   String? permanentAddress;
 
@@ -103,6 +121,8 @@ class Contact {
       {this.mobile,
       this.email,
       this.linkedin,
+      this.nationality,
+      this.currentCountry,
       this.currentAddress,
       this.permanentAddress});
 
@@ -110,6 +130,8 @@ class Contact {
     mobile = json['mobile'].cast<String>();
     email = json['email'];
     linkedin = json['linkedin'];
+    nationality = json['nationality'];
+    currentCountry = json['current_country'];
     currentAddress = json['current_address'];
     permanentAddress = json['permanent_address'];
   }
@@ -119,6 +141,8 @@ class Contact {
     data['mobile'] = mobile;
     data['email'] = email;
     data['linkedin'] = linkedin;
+    data['nationality'] = nationality;
+    data['current_country'] = currentCountry;
     data['current_address'] = currentAddress;
     data['permanent_address'] = permanentAddress;
     return data;
@@ -280,6 +304,67 @@ class Education {
     data['institute'] = institute;
     data['year'] = year;
     data['score'] = score;
+    return data;
+  }
+}
+
+class CoreStrengthsAndExpertise {
+  TechnicalLeadership? technicalLeadership;
+  TechnicalLeadership? businessDomainKnowledge;
+  TechnicalLeadership? technicalInnovation;
+  TechnicalLeadership? projectManagement;
+
+  CoreStrengthsAndExpertise(
+      {this.technicalLeadership,
+      this.businessDomainKnowledge,
+      this.technicalInnovation,
+      this.projectManagement});
+
+  CoreStrengthsAndExpertise.fromJson(Map<String, dynamic> json) {
+    technicalLeadership = json['technicalLeadership'] != null
+        ? TechnicalLeadership.fromJson(json['technicalLeadership'])
+        : null;
+    businessDomainKnowledge = json['businessDomainKnowledge'] != null
+        ? TechnicalLeadership.fromJson(json['businessDomainKnowledge'])
+        : null;
+    technicalInnovation = json['technicalInnovation'] != null
+        ? TechnicalLeadership.fromJson(json['technicalInnovation'])
+        : null;
+    projectManagement = json['projectManagement'] != null
+        ? TechnicalLeadership.fromJson(json['projectManagement'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (technicalLeadership != null) {
+      data['technicalLeadership'] = technicalLeadership!.toJson();
+    }
+    if (businessDomainKnowledge != null) {
+      data['businessDomainKnowledge'] = businessDomainKnowledge!.toJson();
+    }
+    if (technicalInnovation != null) {
+      data['technicalInnovation'] = technicalInnovation!.toJson();
+    }
+    if (projectManagement != null) {
+      data['projectManagement'] = projectManagement!.toJson();
+    }
+    return data;
+  }
+}
+
+class TechnicalLeadership {
+  List<String>? highlights;
+
+  TechnicalLeadership({this.highlights});
+
+  TechnicalLeadership.fromJson(Map<String, dynamic> json) {
+    highlights = json['highlights'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['highlights'] = highlights;
     return data;
   }
 }

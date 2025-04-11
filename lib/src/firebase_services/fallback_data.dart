@@ -2,22 +2,63 @@ const portfolioData = '''
 {
   "name": "Jayesh Bhika Ghadge",
   "contact": {
-    "mobile": ["+966 543705528", "+91 9970900787"],
+    "mobile": [
+      "+966 543705528",
+      "+91 9970900787"
+    ],
     "email": "jayghage111@gmail.com",
     "linkedin": "https://www.linkedin.com/in/jayesh-ghadge/",
     "current_address": "Reeza Suits, Al Khobar, Eastern Province, Saudi Arabia",
     "permanent_address": "18-19 Sai Sawali Apt, Neharu Nagar, Jalgaon, Maharashtra - 425001"
   },
-  "summary": "Senior Flutter Developer with over 9 years of experience in mobile application development, including 6.5+ years of hands-on expertise in Flutter. Proven track record of building scalable, high-performance apps across BFSI, travel, and enterprise security domains.",
+  "headline": "Senior Flutter Developer | Mobile Application Expert | UI/UX Enthusiast",
+  "shortSummary": "Senior Flutter Developer with over 9 years of experience in mobile application development, including 6.5+ years of hands-on expertise in Flutter. Proven track record of building scalable, high-performance apps across BFSI, travel, and enterprise security domains.",
+  "summary": "Accomplished Senior Mobile Application Developer with 9+ years of experience specializing in Flutter development (6.5+ years). Proven track record of delivering high-impact mobile solutions for major enterprises including Saudi Aramco, ITC Infotech, and Future Generali. Expert in creating secure, scalable, and user-friendly applications that drive business growth and enhance user engagement.\n\nAt the forefront of Kaar Tech's mobile app development, strategically leveraging Flutter to create cutting-edge solutions for Aramco, ensuring seamless performance and robust security. Solid foundation in engineering, augmented by proficiency in POD, Document Object Model (DOM), and Google Maps API, enabling delivery of sophisticated B2B and B2C applications.\n\nMy journey through the tech landscape includes a transformative stint as a freelancer, where the initial version of the BharatNXT Application was brought to life. The pursuit of technical excellence and innovation in the finance, insurance, and education sectors is a testament to my commitment to advancing digital experiences.",
   "skills": {
-    "mobile_development": ["Flutter", "Android (Java)", "iOS (Swift)"],
-    "architecture": ["MVVM", "MVC", "Clean Architecture", "BLoC"],
-    "state_management": ["Riverpod", "Provider", "GetX"],
-    "backend_integration": ["REST APIs", "GraphQL", "Firebase"],
-    "security": ["OAuth 2.0", "JWT", "SSL/TLS", "Root Detection"],
-    "database": ["SQLite", "Firebase Firestore", "MongoDB"],
-    "tools": ["Git", "JIRA", "Android Studio", "Xcode", "VS Code"],
-    "testing": ["Unit Testing", "Widget Testing", "Integration Testing"]
+    "mobile_development": [
+      "Flutter",
+      "Android (Java)",
+      "iOS (Swift)"
+    ],
+    "architecture": [
+      "MVVM",
+      "MVC",
+      "Clean Architecture",
+      "BLoC"
+    ],
+    "state_management": [
+      "Riverpod",
+      "Provider",
+      "GetX"
+    ],
+    "backend_integration": [
+      "REST APIs",
+      "GraphQL",
+      "Firebase"
+    ],
+    "security": [
+      "OAuth 2.0",
+      "JWT",
+      "SSL/TLS",
+      "Root Detection"
+    ],
+    "database": [
+      "SQLite",
+      "Firebase Firestore",
+      "MongoDB"
+    ],
+    "tools": [
+      "Git",
+      "JIRA",
+      "Android Studio",
+      "Xcode",
+      "VS Code"
+    ],
+    "testing": [
+      "Unit Testing",
+      "Widget Testing",
+      "Integration Testing"
+    ]
   },
   "experience": [
     {
@@ -30,7 +71,6 @@ const portfolioData = '''
         "Managing a 5-member Flutter team",
         "Implemented security features as per vulnerability reports",
         "Implemented secure login and analytics"
-
       ]
     },
     {
@@ -70,7 +110,6 @@ const portfolioData = '''
       ]
     }
   ],
-  {
   "projects": [
     {
       "name": "SURE",
@@ -117,9 +156,9 @@ const portfolioData = '''
     {
       "name": "Security Guard",
       "description": "Enterprise app processing 10,000+ daily check-ins.",
-      "platform": "Enterprise Private App”,
+      "platform": "Enterprise Private App",
       "image": "security_guard.png",
-      “links”:{}
+      "links": {}
     },
     {
       "name": "FG Mobile Infinity",
@@ -171,8 +210,7 @@ const portfolioData = '''
         "web": "https://www.remitx.com/"
       }
     }
-  ]
-},
+  ],
   "education": [
     {
       "degree": "B.E. Mechanical",
@@ -202,9 +240,50 @@ const portfolioData = '''
     "Location-Based Services",
     "Identity Management"
   ],
-  "languages": ["English", "Hindi", "Marathi"],
+  "languages": [
+    "English",
+    "Hindi",
+    "Marathi"
+  ],
   "dob": "03-Aug-1993",
   "marital_status": "Married",
-  "interests": ["Photography", "Bike Riding", "Traveling"]
-}
-''';
+  "interests": [
+    "Photography",
+    "Bike Riding",
+    "Traveling"
+  ],
+  "coreStrengthsAndExpertise": {
+    "technicalLeadership": {
+      "highlights": [
+        "Successfully led and delivered 15+ major mobile applications from concept to deployment",
+        "Mentored junior developers and established best practices for development teams",
+        "Expertise in architecting complex applications using latest Flutter frameworks and patterns",
+        "Strong track record of meeting project deadlines and quality benchmarks"
+      ]
+    },
+    "businessDomainKnowledge": {
+      "highlights": [
+        "Deep understanding of enterprise security protocols and compliance requirements",
+        "Extensive experience in financial services, banking, and insurance domains",
+        "Proven ability to translate complex business requirements into technical solutions",
+        "Strong background in digital ID management and visitor management systems"
+      ]
+    },
+    "technicalInnovation": {
+      "highlights": [
+        "Pioneered implementation of new technologies leading to 40% faster development cycles",
+        "Developed reusable component libraries reducing development time by 30%",
+        "Implemented automated testing frameworks improving code quality by 25%",
+        "Created efficient solutions for handling large-scale data processing"
+      ]
+    },
+    "projectManagement": {
+      "highlights": [
+        "Led cross-functional teams of 5-10 members across multiple projects",
+        "Reduced bug reports by 45% through implementation of robust testing practices",
+        "Improved app performance metrics by 35% through optimization techniques",
+        "Successfully managed multiple concurrent projects with varying priorities"
+      ]
+    }
+  }
+}''';

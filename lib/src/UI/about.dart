@@ -55,12 +55,44 @@ class About extends ConsumerWidget {
     );
   }
 
+  Widget coreStrengthsSection(BuildContext context) {
+    final core = portfolioData.coreStrengthsAndExpertise;
+    if (core == null) return const SizedBox();
+
+    final sections = <Widget>[];
+
+    void addSection(String title, TechnicalLeadership? data) {
+      if (data?.highlights != null && data!.highlights!.isNotEmpty) {
+        sections.add(skillCategory(context, title, data.highlights!));
+      }
+    }
+
+    addSection("Technical Leadership", core.technicalLeadership);
+    addSection("Business Domain Knowledge", core.businessDomainKnowledge);
+    addSection("Technical Innovation", core.technicalInnovation);
+    addSection("Project Management", core.projectManagement);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: 30),
+        const CustomText(
+          text: "Core Strengths & Expertise",
+          textsize: 22.0,
+          color: Color(0xffCCD6F6),
+          fontWeight: FontWeight.bold,
+        ),
+        const SizedBox(height: 20),
+        ...sections,
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     var size = MediaQuery.of(context).size;
     final skills = portfolioData.skills;
 
-    // Build skill category widgets dynamically
     final allSkillSections = <Widget>[];
 
     if (skills?.mobileDevelopment != null) {
@@ -75,35 +107,37 @@ class About extends ConsumerWidget {
       allSkillSections
           .add(skillCategory(context, "Architecture", skills!.architecture!));
     }
-    if (skills?.tools != null) {
-      allSkillSections.add(skillCategory(context, "Tools", skills!.tools!));
-    }
+
     if (skills?.backendIntegration != null) {
       allSkillSections.add(skillCategory(
           context, "Backend Integration", skills!.backendIntegration!));
+    }
+
+    if (skills?.database != null) {
+      allSkillSections
+          .add(skillCategory(context, "Database", skills!.database!));
+    }
+    if (skills?.testing != null) {
+      allSkillSections.add(skillCategory(context, "Testing", skills!.testing!));
     }
     if (skills?.security != null) {
       allSkillSections
           .add(skillCategory(context, "Security", skills!.security!));
     }
-    if (skills?.database != null) {
-      allSkillSections
-          .add(skillCategory(context, "Database", skills!.database!));
+    if (skills?.tools != null) {
+      allSkillSections.add(skillCategory(context, "Tools", skills!.tools!));
     }
+    final int third = (allSkillSections.length / 3).ceil();
 
-    if (skills?.testing != null) {
-      allSkillSections.add(skillCategory(context, "Testing", skills!.testing!));
-    }
-
-    // Split skills into two columns
-    final midpoint = (allSkillSections.length / 2).ceil();
-    final leftColumn = allSkillSections.take(midpoint).toList();
-    final rightColumn = allSkillSections.skip(midpoint).toList();
+    final leftColumn = allSkillSections.take(third).toList();
+    final middleColumn = allSkillSections.skip(third).take(third).toList();
+    final rightColumn = allSkillSections.skip(third * 2).toList();
 
     return SizedBox(
-      height: size.height - 90,
+      // height: size.height - 90,
       width: size.width - 100,
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Left side: About Me
           SizedBox(
@@ -111,7 +145,6 @@ class About extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header
                 Row(
                   children: [
                     const CustomText(
@@ -136,38 +169,32 @@ class About extends ConsumerWidget {
                   ],
                 ),
                 const SizedBox(height: 40),
-
-                // Description
                 Wrap(
                   children: [
                     CustomText(
                       text:
-                          "Hello! I'm ${portfolioData.name ?? 'Jayesh'}, a Flutter Platform Expert currently based in ${portfolioData.contact?.currentAddress ?? 'Pune, Maharashtra, India'}.\n\n",
+                          "Hello! I'm ${portfolioData.name ?? 'Jayesh'}, a Flutter Platform Expert currently based in ${portfolioData.contact?.currentCountry ?? 'Pune, Maharashtra, India'}.\n",
                       textsize: 18.0,
                       color: const Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
                     CustomText(
                       text: portfolioData.summary ??
-                          "At the forefront of Kaar Tech's mobile app development, our team strategically leverages Flutter to create cutting-edge solutions for Aramco.\n\n",
+                          "At the forefront of Kaar Tech's mobile app development, our team strategically leverages Flutter to create cutting-edge solutions for Aramco.\n",
                       textsize: 18.0,
                       color: const Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
-                    SizedBox(
-                      height: size.height * 0.1,
-                    ),
+                    SizedBox(height: size.height * 0.5),
                     const CustomText(
                       text:
-                          "Here’s a snapshot of the tools and technologies I’ve used in recent projects:\n",
+                          "Here's a snapshot of the tools and technologies I've used in recent projects:\n",
                       textsize: 18.0,
                       color: Color(0xff828DAA),
                       letterSpacing: 0.75,
                     ),
                   ],
                 ),
-
-                // Two-column skills
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -175,6 +202,15 @@ class About extends ConsumerWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: leftColumn,
+                      ),
+                    ),
+
+                    // Middle Column
+                    const SizedBox(width: 32),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: middleColumn,
                       ),
                     ),
                     const SizedBox(width: 32),
@@ -185,12 +221,15 @@ class About extends ConsumerWidget {
                       ),
                     ),
                   ],
-                )
+                ),
+
+                // 🔥 Core Strengths & Expertise Section
+                coreStrengthsSection(context),
               ],
             ),
           ),
 
-          // Right side: Profile image
+          // Right side: Profile Image
           Expanded(
             child: SizedBox(
               height: size.height / 1.5,
@@ -210,77 +249,80 @@ class About extends ConsumerWidget {
                       ),
                     ),
                   ),
-                  const CustomImageAnimation(),
+                  Container(
+                    height: size.height / 2,
+                    width: size.width / 5,
+                    color: Colors.black54,
+                    child: const Image(
+                      fit: BoxFit.cover,
+                      image: AssetImage("images/pic1.jpg"),
+                    ),
+                  ),
                 ],
               ),
             ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class CustomImageAnimation extends StatefulWidget {
-  const CustomImageAnimation({super.key});
-
-  @override
-  CustomImageAnimationState createState() => CustomImageAnimationState();
-}
-
-class CustomImageAnimationState extends State<CustomImageAnimation> {
-  Color customImageColor = const Color(0xff61F9D5).withOpacity(0.5);
-  int _enterCounter = 0;
-  int _exitCounter = 0;
-  double x = 0.0;
-  double y = 0.0;
-
-  void _incrementEnter(PointerEvent details) {
-    setState(() {
-      _enterCounter++;
-    });
-  }
-
-  void _incrementExit(PointerEvent details) {
-    setState(() {
-      customImageColor = const Color(0xff61F9D5).withOpacity(0.5);
-      _exitCounter++;
-    });
-  }
-
-  void _updateLocation(PointerEvent details) {
-    setState(() {
-      customImageColor = Colors.transparent;
-      x = details.position.dx;
-      y = details.position.dy;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    return MouseRegion(
-      onEnter: _incrementEnter,
-      onHover: _updateLocation,
-      onExit: _incrementExit,
-      child: Stack(
-        children: [
-          Container(
-            height: size.height / 2,
-            width: size.width / 5,
-            color: Colors.black54,
-            child: const Image(
-              fit: BoxFit.cover,
-              image: AssetImage("images/pic1.jpg"),
-            ),
           ),
-          // Container(
-          //   height: size.height / 2,
-          //   width: size.width / 5,
-          //   color: customImageColor,
-          // ),
         ],
       ),
     );
   }
 }
+
+// class CustomImageAnimation extends StatefulWidget {
+//   const CustomImageAnimation({super.key});
+
+//   @override
+//   CustomImageAnimationState createState() => CustomImageAnimationState();
+// }
+
+// class CustomImageAnimationState extends State<CustomImageAnimation> {
+//   Color customImageColor = const Color(0xff61F9D5).withOpacity(0.5);
+//   int _enterCounter = 0;
+//   int _exitCounter = 0;
+//   double x = 0.0;
+//   double y = 0.0;
+
+//   void _incrementEnter(PointerEvent details) {
+//     setState(() {
+//       _enterCounter++;
+//     });
+//   }
+
+//   void _incrementExit(PointerEvent details) {
+//     setState(() {
+//       customImageColor = const Color(0xff61F9D5).withOpacity(0.5);
+//       _exitCounter++;
+//     });
+//   }
+
+//   void _updateLocation(PointerEvent details) {
+//     setState(() {
+//       customImageColor = Colors.transparent;
+//       x = details.position.dx;
+//       y = details.position.dy;
+//     });
+//   }
+
+//   @override
+//   Widget build(BuildContext context) {
+//     var size = MediaQuery.of(context).size;
+//     return MouseRegion(
+//       onEnter: _incrementEnter,
+//       onHover: _updateLocation,
+//       onExit: _incrementExit,
+//       child: Stack(
+//         children: [
+//           Container(
+//             height: size.height / 2,
+//             width: size.width / 5,
+//             color: Colors.black54,
+//             child: const Image(
+//               fit: BoxFit.cover,
+//               image: AssetImage("images/pic1.jpg"),
+//             ),
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
